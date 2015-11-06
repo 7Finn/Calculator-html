@@ -4,9 +4,6 @@ window.onload = function () {
 	var buttons = document.getElementsByTagName('button');
 	var monitor = document.getElementById('monitor');
 	flag = false;
-	if (monitor == null) {
-		alert("NULL");
-	}
 	for (var i = 0; i < buttons.length; ++i) {
 		buttons[i].onclick = function() {click(monitor, this)};
 	}
@@ -20,9 +17,12 @@ function click (monitor, obj) {
 	} else if (obj.id == 'larr') {
 		sum = sum.substring(0, sum.length - 1);
 	} else if (obj.id == 'equal') {
+		if (sum.length == 0) {
+			return;
+		}
 		flag = true;
 		try {
-			var ans = eval(sum);
+			var ans = parseFloat(eval(sum).toFixed(12));
 		} catch(exception) {
 			sum = "";
 			monitor.innerHTML = sum;
@@ -34,6 +34,10 @@ function click (monitor, obj) {
 		sum = sum + obj.id;
 		flag = false;
 	} else {
+		if (obj.id == '0') {
+			if (sum.length == 1 && sum[0] == '0')
+				return;
+		}
 		if (flag == true) {
 			sum = "";
 			flag = false;
